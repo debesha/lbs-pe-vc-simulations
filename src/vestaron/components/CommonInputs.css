@@ -1,0 +1,44 @@
+.common-inputs {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+}
+
+.common-inputs h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.input-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.input-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-item label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.input-item input {
+  padding: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  transition: border-color 0.3s;
+}
+
+.input-item input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+

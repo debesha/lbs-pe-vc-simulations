@@ -1,0 +1,37 @@
+.app {
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 22px;
+}
+
+.case-reference {
+  max-width: 1400px;
+  margin: 20px auto 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+  background: transparent !important;
+  position: relative;
+  z-index: 10;
+  color: #000 !important;
+}
+
+.case-reference p {
+  margin: 3px 0;
+  color: #000 !important;
+}

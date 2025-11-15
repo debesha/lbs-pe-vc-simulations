@@ -1,0 +1,49 @@
+.result-box {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.result-box h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.calculation-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.calculation-table tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.calculation-table td {
+  padding: 8px 0;
+  font-size: 12px;
+}
+
+.calculation-table td:first-child {
+  color: #666;
+  font-weight: 500;
+}
+
+.calculation-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+.calculation-table tr.total {
+  border-top: 2px solid #333;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.calculation-table tr.total td {
+  color: #1976d2;
+  padding-top: 10px;
+}
+
