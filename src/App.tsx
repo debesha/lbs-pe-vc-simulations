@@ -31,6 +31,31 @@ function App() {
           >
             Vestaron Case Study Modelling
           </a>
+          <a 
+            href="./schroders.html" 
+            style={{
+              display: 'inline-block',
+              padding: '20px 40px',
+              backgroundColor: '#fff',
+              color: '#667eea',
+              textDecoration: 'none',
+              borderRadius: '8px',
+              fontSize: '18px',
+              fontWeight: '600',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '0 6px 12px rgba(0, 0, 0, 0.15)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            Schroders Private Equity/Venture Capital Simulations
+          </a>
         </div>
       </div>
     </div>
