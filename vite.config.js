@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: './index.html',
         vestaron: './vestaron.html',
+        schroders: './schroders.html',
       },
     },
   },
