@@ -7,7 +7,7 @@ function App() {
         <h1 style={{ marginBottom: '50px', color: '#fff' }}>LBS PE/VC Simulations</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
           <a 
-            href="/vestaron.html" 
+            href="./vestaron.html" 
             style={{
               display: 'inline-block',
               padding: '20px 40px',
