@@ -1,104 +1,491 @@
 .app {
   min-height: 100vh;
   padding: 12px;
+  background: #f4f5f9;
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1280px;
   margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 25px 70px rgba(16, 24, 40, 0.2);
+  padding: 32px;
 }
 
 h1 {
-  color: #333;
-  margin-bottom: 6px;
-  font-size: 22px;
+  color: #001e62;
+  margin-bottom: 12px;
+  font-size: 28px;
+}
+
+.intro {
+  color: #475467;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.inputs-panel {
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  padding: 20px;
+  background: #f9fafb;
+  margin-bottom: 24px;
+}
+
+.inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #344054;
+}
+
+.input-field input,
+.selector-group select {
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #101828;
+  background: #fff;
+}
+
+.capital-status {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #475467;
+}
+
+.coinvest-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #e4e7ec;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d0d5dd;
+  border-radius: 34px;
+  transition: 0.3s;
+}
+
+.switch .slider:before {
+  position: absolute;
+  content: '';
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.25);
+}
+
+.switch input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+.toggle-title {
+  margin: 0;
+  font-weight: 600;
+  color: #101828;
+}
+
+.toggle-helper {
+  margin: 2px 0 0;
+  color: #475467;
+  font-size: 13px;
+}
+
+.disclaimer {
+  margin: 16px 0 24px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-left: 3px solid #667eea;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #475467;
+  line-height: 1.5;
+}
+
+.disclaimer strong {
+  color: #344054;
+  font-weight: 600;
+}
+
+.fund-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+  align-items: start;
+}
+
+.fund-card {
+  border: 1px solid #e4e7ec;
+  border-radius: 14px;
+  padding: 20px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  min-height: 0;
+}
+
+.fund-card.disabled {
+  background: #f5f6f8;
+  opacity: 0.8;
+}
+
+.fund-card.disabled select,
+.fund-card.disabled input,
+.fund-card.disabled .metric-value {
+  color: #98a2b3;
+}
+
+.fund-card.disabled input[type='range'],
+.fund-card input[type='range']:disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.fund-card.disabled select,
+.fund-card select:disabled {
+  cursor: not-allowed;
+  background-color: #f5f6f8;
+}
+
+.fund-card.disabled .slider-label strong {
+  color: #98a2b3;
+}
+
+.slider-group:has(input[type='range']:disabled) .slider-label strong {
+  color: #98a2b3;
+}
+
+.fund-card.disabled .cash-events {
+  opacity: 0.7;
+}
+
+.inactive-message {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #e4e7ec;
+  color: #475467;
+  font-size: 12px;
+}
+
+.fund-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fund-card__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: #98a2b3;
+}
+
+.fund-card h3 {
+  margin: 0;
+  color: #101828;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #475467;
+}
+
+.slider-group input[type='range'] {
+  width: 100%;
+}
+
+.selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selector-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #344054;
+}
+
+.selector-group.readonly .readonly-pill {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f2f4f7;
+  font-weight: 600;
+  color: #475467;
+  font-size: 13px;
+}
+
+.selector-group.readonly label {
+  margin-bottom: 4px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.metrics-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cash-events {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #e4e7ec;
+  font-size: 11px;
+  color: #475467;
+}
+
+.cash-events__title {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  margin: 0 0 6px;
+  color: #98a2b3;
+}
+
+.cash-events ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cash-events li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cash-events li span:first-of-type {
+  flex: 1;
+}
+
+.cash-amount {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cash-events__toggle {
+  margin-top: 6px;
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cash-events__toggle:hover {
+  text-decoration: underline;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: #475467;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #101828;
+  margin: 0;
+}
+
+.fund-card.buyout {
+  border-top: 4px solid #4caf50;
+}
+
+.fund-card.coinvest {
+  border-top: 4px solid #2a7f62;
+}
+
+.fund-card.vc {
+  border-top: 4px solid #0066ff;
+}
+
+.blended-panel {
+  border: 1px solid #d0d5dd;
+  border-radius: 16px;
+  padding: 24px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.blended-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  color: #475467;
+  margin: 0;
+}
+
+.blended-panel h2 {
+  margin: 0;
+  color: #101828;
+}
+
+.blended-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .case-reference {
-  max-width: 1400px;
-  margin: 20px auto 12px;
+  margin-top: 32px;
   padding: 12px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
-  background: transparent !important;
-  position: relative;
-  z-index: 10;
-  color: #000 !important;
+  color: #000;
 }
 
 .case-reference p {
   margin: 3px 0;
-  color: #000 !important;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+.positive {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.negative {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.warning {
+  color: #b45309;
+  font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .inputs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .fund-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .blended-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-/* Mobile Responsive Styles */
-@media (max-width: 768px) {
-  .app {
-    padding: 8px;
-  }
-
+@media (max-width: 640px) {
   .container {
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 20px;
   }
 
   h1 {
+    font-size: 22px;
+  }
+
+  .inputs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .metrics-column {
+    gap: 12px;
+  }
+
+  .metric-value {
     font-size: 18px;
-    margin-bottom: 12px;
   }
 
-  .case-reference {
-    padding: 8px;
-    font-size: 9px;
-    margin: 16px auto 8px;
+  .capital-status {
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .case-reference p {
-    margin: 4px 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .app {
-    padding: 4px;
+  .blended-metrics {
+    grid-template-columns: 1fr;
   }
 
-  .container {
-    padding: 12px;
-  }
-
-  h1 {
-    font-size: 16px;
-  }
-
-  .case-reference {
-    font-size: 8px;
-    padding: 6px;
-  }
-
-  .case-reference a {
-    word-break: break-word;
-  }
-
-  .case-reference p {
-    word-wrap: break-word;
+  .coinvest-toggle {
+    align-items: flex-start;
   }
 }
 
