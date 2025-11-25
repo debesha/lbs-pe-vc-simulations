@@ -106,7 +106,7 @@ export function DilutionTab() {
       <div className="comparison-section" style={{ marginTop: '18px' }}>
         <div className="column certificate">
           <h2>Scenario 1: Final Ownership Structure</h2>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px' }}>
+          <div className="pie-chart-container">
             <canvas id="pieChart1" width="300" height="300"></canvas>
           </div>
           <PieChart canvasId="pieChart1" data={scenarios.before.final} />
@@ -114,7 +114,7 @@ export function DilutionTab() {
 
         <div className="column vc-fund">
           <h2>Scenario 2: Final Ownership Structure</h2>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '12px' }}>
+          <div className="pie-chart-container">
             <canvas id="pieChart2" width="300" height="300"></canvas>
           </div>
           <PieChart canvasId="pieChart2" data={scenarios.after.final} />

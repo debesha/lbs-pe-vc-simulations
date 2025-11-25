@@ -11,6 +11,76 @@
   margin-top: 18px;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .comparison-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .column {
+    padding: 12px;
+  }
+
+  .column h2 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comparison-section {
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  .column {
+    padding: 10px;
+  }
+
+  .column h2 {
+    font-size: 13px;
+  }
+
+  .dilution-tab h2 {
+    font-size: 14px;
+  }
+}
+
+/* Responsive canvas styling */
+.pie-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.pie-chart-container canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .pie-chart-container {
+    padding: 10px;
+  }
+  
+  .pie-chart-container canvas {
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pie-chart-container {
+    padding: 8px;
+  }
+  
+  .pie-chart-container canvas {
+    max-width: 200px;
+  }
+}
+
 .column {
   background: #fff;
   border: 2px solid #e0e0e0;

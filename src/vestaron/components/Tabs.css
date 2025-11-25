@@ -34,3 +34,31 @@
   display: block;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .tabs {
+    gap: 4px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-button {
+    padding: 10px 14px;
+    font-size: 12px;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    margin-bottom: 12px;
+  }
+
+  .tab-button {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+

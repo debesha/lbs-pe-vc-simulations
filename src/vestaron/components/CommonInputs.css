@@ -17,6 +17,36 @@
   gap: 12px;
 }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .common-inputs {
+    padding: 12px;
+  }
+
+  .input-group {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .common-inputs h3 {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .common-inputs {
+    padding: 10px;
+  }
+
+  .input-group {
+    gap: 8px;
+  }
+
+  .input-item input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
 .input-item {
   display: flex;
   flex-direction: column;
