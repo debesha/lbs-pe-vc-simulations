@@ -1,7 +1,10 @@
+import { IncomeStatementTable } from './IncomeStatementTable'
+import { incomeStatementData } from '../data/incomeStatement'
+
 export function OperationalForecastTab() {
   return (
     <div>
-      <p>Operational Forecast tab content</p>
+      <IncomeStatementTable data={incomeStatementData} />
     </div>
   )
 }
