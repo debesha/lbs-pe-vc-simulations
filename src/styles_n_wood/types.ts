@@ -1,23 +1,51 @@
 export type DataStatus = 'Audited' | 'Unaudited' | 'Plan' | 'Forecast'
 
-export interface IncomeStatementYear {
+/**
+ * Raw input data without computed fields
+ */
+export interface RawAccountingYear {
   year: number
   status: DataStatus
-  unit: string
+  // Income Statement fields
   turnover: number
   costOfSales: number
-  grossProfit: number
   overheads: number
-  ebit: number
   interestReceivable: number
-  pbt: number
-  grossProfitMargin?: number
-  ebitMargin?: number
-  pbtMargin?: number
+  // Cash Flow fields
+  depreciation?: number
+  profitLossOnSaleOfFixedAssets?: number
+  increaseDecreaseInDebtors?: number
+  increaseDecreaseInCreditors?: number
+  interestReceived?: number
+  netCapitalExpenditure?: number
 }
 
-export interface IncomeStatementData {
-  title: string
-  years: IncomeStatementYear[]
+/**
+ * Enriched accounting year with all computed fields populated
+ */
+export interface AccountingYear extends RawAccountingYear {
+  // Computed Income Statement fields
+  grossProfit: number
+  grossProfitMargin: number
+  ebit: number
+  ebitMargin: number
+  pbt: number
+  pbtMargin: number
+  // Computed Cash Flow fields
+  cashFlowFromOperations: number
+  freeCashFlowPreTax: number
 }
+
+export interface AccountingData {
+  title: string
+  years: AccountingYear[]
+}
+
+export interface CashFlowData {
+  title: string
+  years: AccountingYear[]
+}
+
+// Alias for backward compatibility
+export type IncomeStatementData = AccountingData
 

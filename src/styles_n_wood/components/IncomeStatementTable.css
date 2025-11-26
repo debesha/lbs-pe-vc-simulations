@@ -4,6 +4,10 @@
   margin: 20px 0;
 }
 
+.income-statement-container:not(:first-child) {
+  margin-top: 40px;
+}
+
 .income-statement-title {
   font-size: 20px;
   font-weight: 600;
@@ -95,7 +99,12 @@
   font-weight: 600;
 }
 
+.income-statement-single-underline {
+  border-top: 1px solid #333;
+}
+
 .income-statement-double-underline {
+  border-top: 1px solid #333;
   border-bottom: 3px double #333;
 }
 

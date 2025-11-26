@@ -1,10 +1,10 @@
-import { IncomeStatementYear } from '../types'
+import { AccountingYear } from '../types'
 import './IncomeStatementTable.css'
 
 interface IncomeStatementMarginRowProps {
   label: string
-  years: IncomeStatementYear[]
-  getMargin: (year: IncomeStatementYear) => number | undefined
+  years: AccountingYear[]
+  getMargin: (year: AccountingYear) => number | undefined
 }
 
 export function IncomeStatementMarginRow({

@@ -1,12 +1,13 @@
-import { IncomeStatementYear } from '../types'
+import { AccountingYear } from '../types'
 import './IncomeStatementTable.css'
 
 interface IncomeStatementTableRowProps {
   label: string
-  years: IncomeStatementYear[]
-  getValue: (year: IncomeStatementYear) => number | undefined
+  years: AccountingYear[]
+  getValue: (year: AccountingYear) => number | undefined
   isBold?: boolean
   isDoubleUnderline?: boolean
+  isSingleUnderline?: boolean
   formatValue?: (value: number) => string
 }
 
@@ -16,6 +17,7 @@ export function IncomeStatementTableRow({
   getValue,
   isBold = false,
   isDoubleUnderline = false,
+  isSingleUnderline = false,
   formatValue,
 }: IncomeStatementTableRowProps) {
   const defaultFormatValue = (value: number) => {
@@ -25,7 +27,7 @@ export function IncomeStatementTableRow({
   const format = formatValue || defaultFormatValue
 
   return (
-    <tr className={`income-statement-data-row ${isBold ? 'income-statement-bold' : ''} ${isDoubleUnderline ? 'income-statement-double-underline' : ''}`}>
+    <tr className={`income-statement-data-row ${isBold ? 'income-statement-bold' : ''} ${isDoubleUnderline ? 'income-statement-double-underline' : ''} ${isSingleUnderline ? 'income-statement-single-underline' : ''}`}>
       <td className="income-statement-label-cell">{label}</td>
       {years.map((year) => {
         const value = getValue(year)

@@ -1,11 +1,11 @@
-import { IncomeStatementData } from '../types'
+import { AccountingData } from '../types'
 import { IncomeStatementTableHeader } from './IncomeStatementTableHeader'
 import { IncomeStatementTableRow } from './IncomeStatementTableRow'
 import { IncomeStatementMarginRow } from './IncomeStatementMarginRow'
 import './IncomeStatementTable.css'
 
 interface IncomeStatementTableProps {
-  data: IncomeStatementData
+  data: AccountingData
 }
 
 export function IncomeStatementTable({ data }: IncomeStatementTableProps) {

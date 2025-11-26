@@ -1,8 +1,8 @@
-import { IncomeStatementYear } from '../types'
+import { AccountingYear } from '../types'
 import './IncomeStatementTable.css'
 
 interface IncomeStatementTableHeaderProps {
-  years: IncomeStatementYear[]
+  years: AccountingYear[]
 }
 
 export function IncomeStatementTableHeader({ years }: IncomeStatementTableHeaderProps) {
@@ -20,7 +20,7 @@ export function IncomeStatementTableHeader({ years }: IncomeStatementTableHeader
         <th className="income-statement-label-cell"></th>
         {years.map((year) => (
           <th key={year.year} className="income-statement-unit-cell">
-            {year.unit}
+            £000
           </th>
         ))}
       </tr>
