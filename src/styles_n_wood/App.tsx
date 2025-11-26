@@ -1,3 +1,9 @@
+import { Tabs } from './components/Tabs'
+import { TabContent } from './components/TabContent'
+import { InfoTab } from './components/InfoTab'
+import { OperationalForecastTab } from './components/OperationalForecastTab'
+import { LBOEntryTab } from './components/LBOEntryTab'
+import { ExitTab } from './components/ExitTab'
 import './App.css'
 
 function App() {
@@ -5,7 +11,20 @@ function App() {
     <div className="app">
       <div className="container">
         <h1>Styles & Wood – Behind the Scenes of Retail</h1>
-        <button className="hello-world-button">Hello World</button>
+        <Tabs>
+          <TabContent tab="info">
+            <InfoTab />
+          </TabContent>
+          <TabContent tab="operational">
+            <OperationalForecastTab />
+          </TabContent>
+          <TabContent tab="lbo_entry">
+            <LBOEntryTab />
+          </TabContent>
+          <TabContent tab="exit">
+            <ExitTab />
+          </TabContent>
+        </Tabs>
         <div className="case-reference">
           <p>Case Study: "Styles & Wood – Behind the Scenes of Retail"</p>
           <p>
