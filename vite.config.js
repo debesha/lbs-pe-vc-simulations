@@ -15,6 +15,7 @@ export default defineConfig({
         main: './index.html',
         vestaron: './vestaron.html',
         schroders: './schroders.html',
+        styles_n_wood: './styles_n_wood.html',
       },
     },
   },

@@ -1,0 +1,118 @@
+.app {
+  min-height: 100vh;
+  padding: 12px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 22px;
+}
+
+.hello-world-button {
+  padding: 20px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.hello-world-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: #5568d3;
+}
+
+.hello-world-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.case-reference {
+  max-width: 1400px;
+  margin: 20px auto 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.5;
+  background: transparent !important;
+  position: relative;
+  z-index: 10;
+  color: #000 !important;
+}
+
+.case-reference p {
+  margin: 3px 0;
+  color: #000 !important;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .app {
+    padding: 8px;
+  }
+
+  .container {
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  h1 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .case-reference {
+    padding: 8px;
+    font-size: 9px;
+    margin: 16px auto 8px;
+  }
+
+  .case-reference p {
+    margin: 4px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .app {
+    padding: 4px;
+  }
+
+  .container {
+    padding: 12px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .case-reference {
+    font-size: 8px;
+    padding: 6px;
+  }
+
+  .case-reference a {
+    word-break: break-word;
+  }
+
+  .case-reference p {
+    word-wrap: break-word;
+  }
+}
+
