@@ -8,6 +8,11 @@ import './AccountingYearDataTable.css'
 
 const NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT = 1.5
 
+type AccountingYearWithDerived = AccountingYear & {
+  netWorkingCapitalDerived?: number
+  changeInWorkingCapitalDerived?: number
+}
+
 export function OperationalForecastTab() {
   const { years } = accountingData
   const pick = <K extends keyof AccountingYear>(key: K) => (year: AccountingYear) =>
@@ -18,7 +23,6 @@ export function OperationalForecastTab() {
   const [stickyOffset, setStickyOffset] = useState(0)
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({
     accountsReceivables: false,
-    workingCapitalChange: false,
   })
   const netWorkingCapitalAssumptionDefaults = useMemo(() => {
     const defaults: Record<number, string> = {}
@@ -32,23 +36,49 @@ export function OperationalForecastTab() {
   const [netWorkingCapitalAssumptions, setNetWorkingCapitalAssumptions] = useState<Record<number, string>>(
     netWorkingCapitalAssumptionDefaults
   )
-  const getNetWorkingCapitalValue = useCallback(
-    (year: AccountingYear) => {
-      if (year.netWorkingCapital !== undefined) {
-        return year.netWorkingCapital
-      }
-
+  const yearsWithDerivedValues = useMemo<AccountingYearWithDerived[]>(() => {
+    const withDerived = years.map((year) => {
       const assumedRatioInput = netWorkingCapitalAssumptions[year.year]
       const ratio =
         assumedRatioInput !== undefined ? parseFloat(assumedRatioInput) : NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT
-      if (Number.isNaN(ratio)) {
-        return undefined
-      }
-      return (ratio / 100) * year.turnover
-    },
-    [netWorkingCapitalAssumptions]
-  )
+      const netWorkingCapitalDerived =
+        year.netWorkingCapital !== undefined
+          ? year.netWorkingCapital
+          : Number.isNaN(ratio)
+          ? undefined
+          : (ratio / 100) * year.turnover
 
+      return {
+        ...year,
+        netWorkingCapitalDerived,
+      }
+    })
+
+    return withDerived.map((year, index, arr) => {
+      if (index === 0) {
+        return {
+          ...year,
+          changeInWorkingCapitalDerived: undefined,
+        }
+      }
+
+      const previousYear = arr[index - 1]
+      if (
+        year.netWorkingCapitalDerived === undefined ||
+        previousYear.netWorkingCapitalDerived === undefined
+      ) {
+        return {
+          ...year,
+          changeInWorkingCapitalDerived: undefined,
+        }
+      }
+
+      return {
+        ...year,
+        changeInWorkingCapitalDerived: year.netWorkingCapitalDerived - previousYear.netWorkingCapitalDerived,
+      }
+    })
+  }, [years, netWorkingCapitalAssumptions])
   const toggleRow = useCallback((key: string) => {
     setExpandedRows((prev) => ({ ...prev, [key]: !prev[key] }))
   }, [])
@@ -63,7 +93,7 @@ export function OperationalForecastTab() {
   const renderNetWorkingCapitalRatioRow = () => (
     <tr className="accounting-year-data-data-row">
       <td className="accounting-year-data-label-cell">Net working capital / Turnover (%)</td>
-      {years.map((year) => {
+      {yearsWithDerivedValues.map((year) => {
         const ratio = pick('netWorkingCapitalToTurnover')(year)
         if (ratio !== undefined) {
           return (
@@ -112,12 +142,15 @@ export function OperationalForecastTab() {
     }
   }, [years.length])
 
-  const renderSectionHeading = (label: string, getValue?: (year: AccountingYear) => number | undefined) => {
+  const renderSectionHeading = (
+    label: string,
+    getValue?: (year: AccountingYearWithDerived) => number | undefined
+  ) => {
     if (getValue) {
       return (
         <tr className="accounting-year-data-section-row">
           <td className="accounting-year-data-section-cell">{label}</td>
-          {years.map((year) => (
+          {yearsWithDerivedValues.map((year) => (
             <td key={year.year} className="accounting-year-data-section-value-cell">
               {formatNumber(getValue(year))}
             </td>
@@ -128,19 +161,22 @@ export function OperationalForecastTab() {
 
     return (
       <tr className="accounting-year-data-section-row">
-        <td className="accounting-year-data-section-cell" colSpan={years.length + 1}>
+        <td className="accounting-year-data-section-cell" colSpan={yearsWithDerivedValues.length + 1}>
           {label}
         </td>
       </tr>
     )
   }
 
-  const renderSubSectionHeading = (label: string, getValue?: (year: AccountingYear) => number | undefined) => {
+  const renderSubSectionHeading = (
+    label: string,
+    getValue?: (year: AccountingYearWithDerived) => number | undefined
+  ) => {
     if (getValue) {
       return (
         <tr className="accounting-year-data-subsection-row">
           <td className="accounting-year-data-subsection-cell">{label}</td>
-          {years.map((year) => (
+          {yearsWithDerivedValues.map((year) => (
             <td key={year.year} className="accounting-year-data-subsection-value-cell">
               {formatNumber(getValue(year))}
             </td>
@@ -151,7 +187,7 @@ export function OperationalForecastTab() {
 
     return (
       <tr className="accounting-year-data-subsection-row">
-        <td className="accounting-year-data-subsection-cell" colSpan={years.length + 1}>
+        <td className="accounting-year-data-subsection-cell" colSpan={yearsWithDerivedValues.length + 1}>
           {label}
         </td>
       </tr>
@@ -162,31 +198,31 @@ export function OperationalForecastTab() {
     <div className="accounting-year-data-container">
       <h2 className="accounting-year-data-title">Operational Forecast</h2>
       <table className="accounting-year-data-table" ref={tableRef}>
-        <AccountingYearDataHeader years={years} />
+        <AccountingYearDataHeader years={yearsWithDerivedValues} />
         <tbody>
           {renderSectionHeading('Income Statement')}
           <AccountingYearDataRow
             label="Turnover"
-            years={years}
+            years={yearsWithDerivedValues}
             getValue={pick('turnover')}
             isSticky={true}
             stickyOffset={stickyOffset}
           />
-          <AccountingYearDataRow label="Cost of sales" years={years} getValue={pick('costOfSales')} />
-          <AccountingYearDataRow label="Gross profit" years={years} getValue={pick('grossProfit')} />
-          <AccountingYearDataRow label="Overheads" years={years} getValue={pick('overheads')} />
-          <AccountingYearDataRow label="EBIT" years={years} getValue={pick('ebit')} isBold={true} />
-          <AccountingYearDataRow label="Interest receivable" years={years} getValue={pick('interestReceivable')} />
+          <AccountingYearDataRow label="Cost of sales" years={yearsWithDerivedValues} getValue={pick('costOfSales')} />
+          <AccountingYearDataRow label="Gross profit" years={yearsWithDerivedValues} getValue={pick('grossProfit')} />
+          <AccountingYearDataRow label="Overheads" years={yearsWithDerivedValues} getValue={pick('overheads')} />
+          <AccountingYearDataRow label="EBIT" years={yearsWithDerivedValues} getValue={pick('ebit')} isBold={true} />
+          <AccountingYearDataRow label="Interest receivable" years={yearsWithDerivedValues} getValue={pick('interestReceivable')} />
           <AccountingYearDataRow
             label="PBT"
-            years={years}
+            years={yearsWithDerivedValues}
             getValue={pick('pbt')}
             isBold={true}
             isDoubleUnderline={true}
           />
-          <AccountingYearDataMarginRow label="Gross profit margin (%)" years={years} getMargin={pick('grossProfitMargin')} />
-          <AccountingYearDataMarginRow label="EBIT margin (%)" years={years} getMargin={pick('ebitMargin')} />
-          <AccountingYearDataMarginRow label="PBT margin (%)" years={years} getMargin={pick('pbtMargin')} />
+          <AccountingYearDataMarginRow label="Gross profit margin (%)" years={yearsWithDerivedValues} getMargin={pick('grossProfitMargin')} />
+          <AccountingYearDataMarginRow label="EBIT margin (%)" years={yearsWithDerivedValues} getMargin={pick('ebitMargin')} />
+          <AccountingYearDataMarginRow label="PBT margin (%)" years={yearsWithDerivedValues} getMargin={pick('pbtMargin')} />
 
           {renderSectionHeading('Capital Movement')}
           {renderSubSectionHeading('Current assets', pick('currentAssets'))}
@@ -205,7 +241,7 @@ export function OperationalForecastTab() {
                 </span>
               </button>
             </td>
-            {years.map((year) => (
+            {yearsWithDerivedValues.map((year) => (
               <td key={year.year} className="accounting-year-data-value-cell">
                 {formatNumber(pick('accountsReceivables')(year))}
               </td>
@@ -215,65 +251,44 @@ export function OperationalForecastTab() {
             <>
               <AccountingYearDataRow
                 label="Amounts receivable on contracts"
-                years={years}
+                years={yearsWithDerivedValues}
                 getValue={pick('amountsReceivableOnContracts')}
                 isNested={true}
               />
-              <AccountingYearDataRow label="Trade debtors" years={years} getValue={pick('tradeDebtors')} isNested={true} />
-              <AccountingYearDataRow label="Other debtors and prepayments" years={years} getValue={pick('otherDebtorsAndPrepayments')} isNested={true} />
+              <AccountingYearDataRow label="Trade debtors" years={yearsWithDerivedValues} getValue={pick('tradeDebtors')} isNested={true} />
+              <AccountingYearDataRow label="Other debtors and prepayments" years={yearsWithDerivedValues} getValue={pick('otherDebtorsAndPrepayments')} isNested={true} />
             </>
           )}
           <AccountingYearDataRow
             label="Cash at bank and in hand (operating cash only)"
-            years={years}
+            years={yearsWithDerivedValues}
             getValue={pick('cashAtBankAndInHandOperating')}
           />
           {renderSubSectionHeading('Current liabilities', pick('currentLiabilities'))}
-          <AccountingYearDataRow label="Account payable" years={years} getValue={pick('accountsPayable')} />
-          <AccountingYearDataRow label="Corporation tax" years={years} getValue={pick('corporationTax')} />
-          <AccountingYearDataRow label="Other taxation and social security" years={years} getValue={pick('otherTaxationAndSocialSecurity')} />
-          <AccountingYearDataRow label="Other creditors and accruals" years={years} getValue={pick('otherCreditorsAndAccruals')} />
-          <AccountingYearDataRow label="Accrued dividends and interest" years={years} getValue={pick('accruedDividendsAndInterest')} />
+          <AccountingYearDataRow label="Account payable" years={yearsWithDerivedValues} getValue={pick('accountsPayable')} />
+          <AccountingYearDataRow label="Corporation tax" years={yearsWithDerivedValues} getValue={pick('corporationTax')} />
+          <AccountingYearDataRow label="Other taxation and social security" years={yearsWithDerivedValues} getValue={pick('otherTaxationAndSocialSecurity')} />
+          <AccountingYearDataRow label="Other creditors and accruals" years={yearsWithDerivedValues} getValue={pick('otherCreditorsAndAccruals')} />
+          <AccountingYearDataRow label="Accrued dividends and interest" years={yearsWithDerivedValues} getValue={pick('accruedDividendsAndInterest')} />
 
-          {renderSubSectionHeading('Net working capital', getNetWorkingCapitalValue)}
+          {renderSubSectionHeading('Net working capital', (year) => year.netWorkingCapitalDerived)}
           {renderNetWorkingCapitalRatioRow()}
 
           {renderSectionHeading('Cash Flow')}
-          <AccountingYearDataRow label="EBIT" years={years} getValue={pick('ebit')} />
-          <AccountingYearDataRow label="Depreciation" years={years} getValue={pick('depreciation')} />
+          <AccountingYearDataRow label="EBIT" years={yearsWithDerivedValues} getValue={pick('ebit')} />
+          <AccountingYearDataRow label="Depreciation" years={yearsWithDerivedValues} getValue={pick('depreciation')} />
           <tr className="accounting-year-data-aggregate-row">
-            <td className="accounting-year-data-label-cell accounting-year-data-label-with-toggle">
-              <span>Change in working capital</span>
-              <button
-                type="button"
-                className="accounting-year-data-toggle"
-                onClick={() => toggleRow('workingCapitalChange')}
-                aria-expanded={expandedRows.workingCapitalChange}
-                aria-label={`${expandedRows.workingCapitalChange ? 'Collapse' : 'Expand'} change in working capital`}
-              >
-                <span className="accounting-year-data-toggle-icon">
-                  {expandedRows.workingCapitalChange ? '−' : '+'}
-                </span>
-              </button>
-            </td>
-            {years.map((year) => (
+            <td className="accounting-year-data-label-cell">Change in working capital</td>
+            {yearsWithDerivedValues.map((year) => (
               <td key={year.year} className="accounting-year-data-value-cell">
-                {formatNumber(
-                  (pick('increaseDecreaseInDebtors')(year) || 0) + (pick('increaseDecreaseInCreditors')(year) || 0)
-                )}
+                {formatNumber(year.changeInWorkingCapitalDerived)}
               </td>
             ))}
           </tr>
-          {expandedRows.workingCapitalChange && (
-            <>
-              <AccountingYearDataRow label="(Increase)/ decrease in debtors" years={years} getValue={pick('increaseDecreaseInDebtors')} isNested />
-              <AccountingYearDataRow label="Increase / (decrease) in creditors" years={years} getValue={pick('increaseDecreaseInCreditors')} isNested />
-            </>
-          )}
-          <AccountingYearDataRow label="Net capital expenditure" years={years} getValue={pick('netCapitalExpenditure')} />
+          <AccountingYearDataRow label="Net capital expenditure" years={yearsWithDerivedValues} getValue={pick('netCapitalExpenditure')} />
           <AccountingYearDataRow
             label="Free cash flow (pre-tax)"
-            years={years}
+            years={yearsWithDerivedValues}
             getValue={pick('freeCashFlowPreTax')}
             isBold={true}
             isDoubleUnderline={true}
