@@ -19,6 +19,17 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.lbo-entry-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.lbo-entry-form-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .lbo-entry-row {
   display: flex;
   flex-direction: row;
@@ -85,10 +96,149 @@
   font-style: italic;
 }
 
+.lbo-entry-sources-uses {
+  margin-top: 32px;
+}
+
+.lbo-entry-sources-uses-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.lbo-entry-sources-uses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.lbo-entry-sources-uses-section {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lbo-entry-sources-uses-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2f3b52;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lbo-entry-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lbo-entry-table thead {
+  border-bottom: 2px solid #ddd;
+}
+
+.lbo-entry-table-header-label {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5c7a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lbo-entry-table-header-value {
+  text-align: right;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5c7a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lbo-entry-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.lbo-entry-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.lbo-entry-table-label {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.lbo-entry-table-value {
+  text-align: right;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', 'Courier New', monospace;
+  color: #333;
+}
+
+.lbo-entry-table-calculated {
+  font-weight: 600;
+  color: #2f3b52;
+}
+
+.lbo-entry-table-total {
+  border-top: 2px solid #333;
+  background-color: #f5f5f5;
+}
+
+.lbo-entry-table-total .lbo-entry-table-label {
+  font-weight: 600;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.lbo-entry-table-total .lbo-entry-table-value {
+  font-weight: 600;
+  font-size: 15px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.lbo-entry-table-input {
+  width: 100px;
+  text-align: right;
+}
+
+.lbo-entry-table-rate-input {
+  width: 70px;
+}
+
+.lbo-entry-pie-chart-container {
+  margin-top: 32px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lbo-entry-pie-chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2f3b52;
+  text-align: center;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .lbo-entry-form {
     padding: 16px;
+  }
+
+  .lbo-entry-form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .lbo-entry-row {
@@ -99,6 +249,15 @@
 
   .lbo-entry-label {
     min-width: auto;
+  }
+
+  .lbo-entry-sources-uses-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .lbo-entry-sources-uses-section {
+    padding: 16px;
   }
 }
 
