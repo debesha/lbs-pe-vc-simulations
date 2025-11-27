@@ -18,6 +18,15 @@ export interface RawAccountingYear {
   increaseDecreaseInCreditors?: number
   interestReceived?: number
   netCapitalExpenditure?: number
+  // Capital Movement fields
+  amountsReceivableOnContracts?: number
+  tradeDebtors?: number
+  otherDebtorsAndPrepayments?: number
+  cashAtBankAndInHandOperating?: number
+  tradeCreditors?: number
+  otherTaxationAndSocialSecurity?: number
+  otherCreditorsAndAccruals?: number
+  accruedDividendsAndInterest?: number
 }
 
 /**
@@ -41,11 +50,5 @@ export interface AccountingData {
   years: AccountingYear[]
 }
 
-export interface CashFlowData {
-  title: string
-  years: AccountingYear[]
-}
 
-// Alias for backward compatibility
-export type IncomeStatementData = AccountingData
 

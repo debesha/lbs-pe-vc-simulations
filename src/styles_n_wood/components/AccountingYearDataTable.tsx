@@ -1,71 +1,71 @@
 import { AccountingData } from '../types'
-import { IncomeStatementTableHeader } from './IncomeStatementTableHeader'
-import { IncomeStatementTableRow } from './IncomeStatementTableRow'
-import { IncomeStatementMarginRow } from './IncomeStatementMarginRow'
-import './IncomeStatementTable.css'
+import { AccountingYearDataHeader } from './AccountingYearDataHeader'
+import { AccountingYearDataRow } from './AccountingYearDataRow'
+import { AccountingYearDataMarginRow } from './AccountingYearDataMarginRow'
+import './AccountingYearDataTable.css'
 
-interface IncomeStatementTableProps {
+interface AccountingYearDataTableProps {
   data: AccountingData
 }
 
-export function IncomeStatementTable({ data }: IncomeStatementTableProps) {
+export function AccountingYearDataTable({ data }: AccountingYearDataTableProps) {
   const { title, years } = data
 
   return (
-    <div className="income-statement-container">
-      <h2 className="income-statement-title">{title}</h2>
-      <table className="income-statement-table">
-        <IncomeStatementTableHeader years={years} />
+    <div className="accounting-year-data-container">
+      <h2 className="accounting-year-data-title">{title}</h2>
+      <table className="accounting-year-data-table">
+        <AccountingYearDataHeader years={years} />
         <tbody>
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="Turnover"
             years={years}
             getValue={(year) => year.turnover}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="Cost of sales"
             years={years}
             getValue={(year) => year.costOfSales}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="Gross profit"
             years={years}
             getValue={(year) => year.grossProfit}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="Overheads"
             years={years}
             getValue={(year) => year.overheads}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="EBIT"
             years={years}
             getValue={(year) => year.ebit}
             isBold={true}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="Interest receivable"
             years={years}
             getValue={(year) => year.interestReceivable}
           />
-          <IncomeStatementTableRow
+          <AccountingYearDataRow
             label="PBT"
             years={years}
             getValue={(year) => year.pbt}
             isBold={true}
             isDoubleUnderline={true}
           />
-          <IncomeStatementMarginRow
+          <AccountingYearDataMarginRow
             label="Gross profit margin (%)"
             years={years}
             getMargin={(year) => year.grossProfitMargin}
           />
-          <IncomeStatementMarginRow
+          <AccountingYearDataMarginRow
             label="EBIT margin (%)"
             years={years}
             getMargin={(year) => year.ebitMargin}
           />
-          <IncomeStatementMarginRow
+          <AccountingYearDataMarginRow
             label="PBT margin (%)"
             years={years}
             getMargin={(year) => year.pbtMargin}
