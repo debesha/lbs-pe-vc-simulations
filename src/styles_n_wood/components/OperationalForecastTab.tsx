@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { accountingData } from '../data/accountingData'
 import { AccountingYear } from '../types'
 import { AccountingYearDataHeader } from './AccountingYearDataHeader'
 import { AccountingYearDataRow } from './AccountingYearDataRow'
 import { AccountingYearDataMarginRow } from './AccountingYearDataMarginRow'
 import './AccountingYearDataTable.css'
+
+const NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT = 1.5
 
 export function OperationalForecastTab() {
   const { years } = accountingData
@@ -18,10 +20,80 @@ export function OperationalForecastTab() {
     accountsReceivables: false,
     workingCapitalChange: false,
   })
+  const netWorkingCapitalAssumptionDefaults = useMemo(() => {
+    const defaults: Record<number, string> = {}
+    years.forEach((year) => {
+      if (pick('netWorkingCapitalToTurnover')(year) === undefined) {
+        defaults[year.year] = NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT.toString()
+      }
+    })
+    return defaults
+  }, [years])
+  const [netWorkingCapitalAssumptions, setNetWorkingCapitalAssumptions] = useState<Record<number, string>>(
+    netWorkingCapitalAssumptionDefaults
+  )
+  const getNetWorkingCapitalValue = useCallback(
+    (year: AccountingYear) => {
+      if (year.netWorkingCapital !== undefined) {
+        return year.netWorkingCapital
+      }
+
+      const assumedRatioInput = netWorkingCapitalAssumptions[year.year]
+      const ratio =
+        assumedRatioInput !== undefined ? parseFloat(assumedRatioInput) : NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT
+      if (Number.isNaN(ratio)) {
+        return undefined
+      }
+      return (ratio / 100) * year.turnover
+    },
+    [netWorkingCapitalAssumptions]
+  )
 
   const toggleRow = useCallback((key: string) => {
     setExpandedRows((prev) => ({ ...prev, [key]: !prev[key] }))
   }, [])
+
+  const handleNetWorkingCapitalAssumptionChange = useCallback((yearNumber: number, value: string) => {
+    setNetWorkingCapitalAssumptions((prev) => ({
+      ...prev,
+      [yearNumber]: value,
+    }))
+  }, [])
+
+  const renderNetWorkingCapitalRatioRow = () => (
+    <tr className="accounting-year-data-data-row">
+      <td className="accounting-year-data-label-cell">Net working capital / Turnover (%)</td>
+      {years.map((year) => {
+        const ratio = pick('netWorkingCapitalToTurnover')(year)
+        if (ratio !== undefined) {
+          return (
+            <td key={year.year} className="accounting-year-data-value-cell">
+              {`${ratio.toFixed(2)}%`}
+            </td>
+          )
+        }
+
+        const assumedValue =
+          netWorkingCapitalAssumptions[year.year] ?? NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT.toString()
+        return (
+          <td key={year.year} className="accounting-year-data-value-cell">
+            <label className="nwc-assumption-field">
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                value={assumedValue}
+                onChange={(event) => handleNetWorkingCapitalAssumptionChange(year.year, event.target.value)}
+                className="nwc-assumption-input"
+                aria-label={`Assumed net working capital to turnover ratio for ${year.year}`}
+              />
+              <span className="nwc-assumption-suffix">%</span>
+            </label>
+          </td>
+        )
+      })}
+    </tr>
+  )
 
   useEffect(() => {
     const measureHeaderHeight = () => {
@@ -163,13 +235,8 @@ export function OperationalForecastTab() {
           <AccountingYearDataRow label="Other creditors and accruals" years={years} getValue={pick('otherCreditorsAndAccruals')} />
           <AccountingYearDataRow label="Accrued dividends and interest" years={years} getValue={pick('accruedDividendsAndInterest')} />
 
-          {renderSubSectionHeading('Net working capital', pick('netWorkingCapital'))}
-          <AccountingYearDataRow
-            label="Net working capital / Turnover (%)"
-            years={years}
-            getValue={pick('netWorkingCapitalToTurnover')}
-            formatValue={(value) => `${value.toFixed(2)}%`}
-          />
+          {renderSubSectionHeading('Net working capital', getNetWorkingCapitalValue)}
+          {renderNetWorkingCapitalRatioRow()}
 
           {renderSectionHeading('Cash Flow')}
           <AccountingYearDataRow label="EBIT" years={years} getValue={pick('ebit')} />
@@ -213,6 +280,10 @@ export function OperationalForecastTab() {
           />
         </tbody>
       </table>
+      <div className="nwc-assumption-legend" aria-live="polite">
+        <span className="nwc-assumption-legend-swatch" aria-hidden="true" />
+        <span>Blue border indicates editable assumed ratio</span>
+      </div>
     </div>
   )
 }
