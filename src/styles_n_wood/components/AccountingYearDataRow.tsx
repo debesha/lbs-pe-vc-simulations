@@ -11,6 +11,7 @@ interface AccountingYearDataRowProps {
   formatValue?: (value: number) => string
   isSticky?: boolean
   stickyOffset?: number
+  isNested?: boolean
 }
 
 export function AccountingYearDataRow({
@@ -23,6 +24,7 @@ export function AccountingYearDataRow({
   formatValue,
   isSticky = false,
   stickyOffset = 0,
+  isNested = false,
 }: AccountingYearDataRowProps) {
   const defaultFormatValue = (value: number) => {
     return value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -35,6 +37,7 @@ export function AccountingYearDataRow({
     isBold ? 'accounting-year-data-bold' : '',
     isDoubleUnderline ? 'accounting-year-data-double-underline' : '',
     isSingleUnderline ? 'accounting-year-data-single-underline' : '',
+    isNested ? 'accounting-year-data-nested-row' : '',
     isSticky ? 'accounting-year-data-sticky-row' : '',
   ]
     .filter(Boolean)
@@ -44,7 +47,7 @@ export function AccountingYearDataRow({
 
   return (
     <tr className={rowClassName} style={stickyStyle}>
-      <td className="accounting-year-data-label-cell">{label}</td>
+      <td className={`accounting-year-data-label-cell ${isNested ? 'accounting-year-data-nested-label' : ''}`}>{label}</td>
       {years.map((year) => {
         const value = getValue(year)
         return (

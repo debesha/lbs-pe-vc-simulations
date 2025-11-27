@@ -110,6 +110,21 @@
   background-color: #fff;
 }
 
+.accounting-year-data-nested-row {
+  background-color: #fefeff;
+}
+
+.accounting-year-data-nested-label {
+  padding-left: 28px;
+  font-weight: 400;
+  color: #5f6b85;
+}
+
+.accounting-year-data-nested-row .accounting-year-data-value-cell {
+  background-color: #fefeff;
+  color: #5f6b85;
+}
+
 .accounting-year-data-value-cell {
   text-align: right;
   padding: 12px 14px;
@@ -147,6 +162,47 @@
   line-height: 1.5;
 }
 
+.accounting-year-data-aggregate-row {
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fdfdfd;
+}
+
+.accounting-year-data-label-with-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accounting-year-data-toggle {
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 4px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.accounting-year-data-toggle:focus-visible {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}
+
+.accounting-year-data-toggle-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #4a5c7a;
+  border-radius: 4px;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .accounting-year-data-section-row {
   background-color: #eef3f8;
 }
@@ -162,6 +218,16 @@
   letter-spacing: 0.03em;
 }
 
+.accounting-year-data-section-value-cell {
+  text-align: right;
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #2f3b52;
+  border-bottom: 2px solid #d6dfe9;
+  background-color: #eef3f8;
+}
+
 .accounting-year-data-subsection-row {
   background-color: #f7f9fc;
 }
@@ -175,6 +241,15 @@
   border-bottom: 1px solid #e1e7f0;
   text-transform: none;
   letter-spacing: 0.01em;
+}
+
+.accounting-year-data-subsection-value-cell {
+  text-align: right;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #4a5c7a;
+  border-bottom: 1px solid #e1e7f0;
+  background-color: #f7f9fc;
 }
 
 /* Mobile Responsive Styles */

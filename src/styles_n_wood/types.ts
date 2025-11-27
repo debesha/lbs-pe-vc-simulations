@@ -24,15 +24,25 @@ export interface RawAccountingYear {
   otherDebtorsAndPrepayments?: number
   cashAtBankAndInHandOperating?: number
   tradeCreditors?: number
+  corporationTax?: number
   otherTaxationAndSocialSecurity?: number
   otherCreditorsAndAccruals?: number
   accruedDividendsAndInterest?: number
+  currentAssets?: number
+  accountsPayable?: number
+  currentLiabilities?: number
+  netWorkingCapital?: number
+  netWorkingCapitalToTurnover?: number
 }
 
 /**
  * Enriched accounting year with all computed fields populated
  */
 export interface AccountingYear extends RawAccountingYear {
+  accountsReceivables?: number
+  accountsPayable?: number
+  currentAssets?: number
+  currentLiabilities?: number
   // Computed Income Statement fields
   grossProfit: number
   grossProfitMargin: number
