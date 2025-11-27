@@ -51,6 +51,8 @@ export function enrichAccountingYear(rawYear: RawAccountingYear): AccountingYear
   const ebit = grossProfit + rawYear.overheads
   const ebitMargin = rawYear.turnover !== 0 ? (ebit / rawYear.turnover) * 100 : 0
   
+  const ebitda = ebit + (rawYear.depreciation || 0)
+  
   const pbt = ebit + rawYear.interestReceivable
   const pbtMargin = rawYear.turnover !== 0 ? (pbt / rawYear.turnover) * 100 : 0
   
@@ -78,6 +80,7 @@ export function enrichAccountingYear(rawYear: RawAccountingYear): AccountingYear
     grossProfitMargin,
     ebit,
     ebitMargin,
+    ebitda,
     pbt,
     pbtMargin,
     cashFlowFromOperations,

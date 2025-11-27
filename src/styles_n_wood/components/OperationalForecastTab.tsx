@@ -11,6 +11,7 @@ const NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT = 1.5
 type AccountingYearWithDerived = AccountingYear & {
   netWorkingCapitalDerived?: number
   changeInWorkingCapitalDerived?: number
+  freeCashFlowPreTaxDerived?: number
 }
 
 export function OperationalForecastTab() {
@@ -55,27 +56,34 @@ export function OperationalForecastTab() {
     })
 
     return withDerived.map((year, index, arr) => {
+      let changeInWorkingCapitalDerived: number | undefined
       if (index === 0) {
-        return {
-          ...year,
-          changeInWorkingCapitalDerived: undefined,
+        changeInWorkingCapitalDerived = undefined
+      } else {
+        const previousYear = arr[index - 1]
+        if (
+          year.netWorkingCapitalDerived === undefined ||
+          previousYear.netWorkingCapitalDerived === undefined
+        ) {
+          changeInWorkingCapitalDerived = undefined
+        } else {
+          changeInWorkingCapitalDerived = year.netWorkingCapitalDerived - previousYear.netWorkingCapitalDerived
         }
       }
 
-      const previousYear = arr[index - 1]
-      if (
-        year.netWorkingCapitalDerived === undefined ||
-        previousYear.netWorkingCapitalDerived === undefined
-      ) {
-        return {
-          ...year,
-          changeInWorkingCapitalDerived: undefined,
-        }
-      }
+      // FCF = EBIT + Depreciation - ChangeInWC - Capex
+      // For first year, treat changeInWC as 0
+      const changeInWCForFCF = changeInWorkingCapitalDerived ?? 0
+      const freeCashFlowPreTaxDerived =
+        (year.ebit || 0) +
+        (year.depreciation || 0) -
+        changeInWCForFCF -
+        (year.netCapitalExpenditure || 0)
 
       return {
         ...year,
-        changeInWorkingCapitalDerived: year.netWorkingCapitalDerived - previousYear.netWorkingCapitalDerived,
+        changeInWorkingCapitalDerived,
+        freeCashFlowPreTaxDerived,
       }
     })
   }, [years, netWorkingCapitalAssumptions])
@@ -211,6 +219,7 @@ export function OperationalForecastTab() {
           <AccountingYearDataRow label="Cost of sales" years={yearsWithDerivedValues} getValue={pick('costOfSales')} />
           <AccountingYearDataRow label="Gross profit" years={yearsWithDerivedValues} getValue={pick('grossProfit')} />
           <AccountingYearDataRow label="Overheads" years={yearsWithDerivedValues} getValue={pick('overheads')} />
+          <AccountingYearDataRow label="EBITDA" years={yearsWithDerivedValues} getValue={pick('ebitda')} isBold={true} />
           <AccountingYearDataRow label="EBIT" years={yearsWithDerivedValues} getValue={pick('ebit')} isBold={true} />
           <AccountingYearDataRow label="Interest receivable" years={yearsWithDerivedValues} getValue={pick('interestReceivable')} />
           <AccountingYearDataRow
@@ -289,7 +298,7 @@ export function OperationalForecastTab() {
           <AccountingYearDataRow
             label="Free cash flow (pre-tax)"
             years={yearsWithDerivedValues}
-            getValue={pick('freeCashFlowPreTax')}
+            getValue={(year) => (year as AccountingYearWithDerived).freeCashFlowPreTaxDerived}
             isBold={true}
             isDoubleUnderline={true}
           />

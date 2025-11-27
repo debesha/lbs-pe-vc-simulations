@@ -48,6 +48,7 @@ export interface AccountingYear extends RawAccountingYear {
   grossProfitMargin: number
   ebit: number
   ebitMargin: number
+  ebitda: number
   pbt: number
   pbtMargin: number
   // Computed Cash Flow fields
