@@ -74,6 +74,58 @@
   font-size: 14px;
 }
 
+.lbo-entry-slider-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.lbo-entry-slider {
+  flex: 1;
+  min-width: 180px;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background-color: #d1d5db;
+  accent-color: #1d4ed8;
+}
+
+.lbo-entry-slider:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+.lbo-entry-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #1d4ed8;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.lbo-entry-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #1d4ed8;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.lbo-entry-slider-value {
+  min-width: 52px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', 'Courier New', monospace;
+}
+
 .lbo-entry-assumption-input {
   width: 80px;
   padding: 6px 8px;
@@ -86,6 +138,22 @@
 }
 
 .lbo-entry-assumption-input:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 1px;
+}
+
+.lbo-entry-select {
+  min-width: 150px;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 14px;
+  border: 1px solid #3b82f6;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #111;
+}
+
+.lbo-entry-select:focus-visible {
   outline: 2px solid #1d4ed8;
   outline-offset: 1px;
 }
@@ -205,6 +273,46 @@
   padding-bottom: 14px;
 }
 
+.lbo-entry-table-label-expandable {
+  display: flex;
+  align-items: center;
+}
+
+.lbo-entry-expand-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.lbo-entry-expand-button span {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid #3b82f6;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #3b82f6;
+}
+
+.lbo-entry-table-subrow .lbo-entry-table-label {
+  padding-left: 32px;
+  font-size: 13px;
+  color: #4a5c7a;
+}
+
+.lbo-entry-table-subrow .lbo-entry-table-value {
+  font-size: 13px;
+  color: #4a5c7a;
+}
+
 .lbo-entry-table-input {
   width: 100px;
   text-align: right;
@@ -228,6 +336,79 @@
   margin-bottom: 16px;
   color: #2f3b52;
   text-align: center;
+}
+
+.lbo-entry-equity-structure {
+  margin-top: 32px;
+}
+
+.lbo-entry-equity-structure-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.lbo-entry-equity-structure-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.lbo-entry-equity-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lbo-entry-equity-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #2f3b52;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.lbo-entry-equity-card-subtitle {
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: #5f6b7c;
+}
+
+.lbo-entry-equity-card-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  align-items: center;
+}
+
+.lbo-entry-equity-card-table {
+  overflow-x: auto;
+}
+
+.lbo-entry-equity-card-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lbo-entry-equity-card-chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #4a5c7a;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .lbo-entry-equity-card-content {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Mobile Responsive Styles */
@@ -257,6 +438,15 @@
   }
 
   .lbo-entry-sources-uses-section {
+    padding: 16px;
+  }
+
+  .lbo-entry-equity-structure-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .lbo-entry-equity-card {
     padding: 16px;
   }
 }

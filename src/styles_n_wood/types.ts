@@ -61,5 +61,25 @@ export interface AccountingData {
   years: AccountingYear[]
 }
 
+export interface ShareholderStake {
+  id: string
+  name: string
+  equityValue?: number
+  ownershipPercent?: number
+  isManagement?: boolean
+  exitsFully?: boolean
+  lockedPostDealPercent?: number
+}
+
+export interface ShareholderStructureRow {
+  id?: string
+  name: string
+  equityValue?: number
+  ownershipPercent?: number
+  isManagement?: boolean
+  isSponsor?: boolean
+  exitsFully?: boolean
+}
+
 
 
