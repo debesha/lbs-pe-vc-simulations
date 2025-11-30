@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { accountingData } from '../data/accountingData'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { AccountingYear } from '../types'
 import { AccountingYearDataHeader } from './AccountingYearDataHeader'
 import { AccountingYearDataRow } from './AccountingYearDataRow'
 import { AccountingYearDataMarginRow } from './AccountingYearDataMarginRow'
+import { useAccountingData } from '../hooks/useAccountingData'
 import './AccountingYearDataTable.css'
 
 const NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT = 1.5
@@ -15,13 +15,15 @@ type AccountingYearWithDerived = AccountingYear & {
 }
 
 export function OperationalForecastTab() {
-  const { years } = accountingData
+  const { years } = useAccountingData()
   const pick = <K extends keyof AccountingYear>(key: K) => (year: AccountingYear) =>
     year[key] as number | undefined
   const formatNumber = (value: number | undefined) =>
     value === undefined ? '' : value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
   const tableRef = useRef<HTMLTableElement | null>(null)
+  const turnoverRowRef = useRef<HTMLTableRowElement | null>(null)
   const [stickyOffset, setStickyOffset] = useState(0)
+  const [turnoverRowHeight, setTurnoverRowHeight] = useState(0)
   const [expandedRows, setExpandedRows] = useState<Record<string, boolean>>({
     accountsReceivables: false,
   })
@@ -150,6 +152,21 @@ export function OperationalForecastTab() {
     }
   }, [years.length])
 
+  useLayoutEffect(() => {
+    const measureTurnoverRowHeight = () => {
+      const turnoverRow = turnoverRowRef.current
+      if (!turnoverRow) return
+      const { height } = turnoverRow.getBoundingClientRect()
+      setTurnoverRowHeight((prev) => (prev === height ? prev : height))
+    }
+
+    measureTurnoverRowHeight()
+    window.addEventListener('resize', measureTurnoverRowHeight)
+    return () => {
+      window.removeEventListener('resize', measureTurnoverRowHeight)
+    }
+  }, [yearsWithDerivedValues.length])
+
   const renderSectionHeading = (
     label: string,
     getValue?: (year: AccountingYearWithDerived) => number | undefined
@@ -202,6 +219,8 @@ export function OperationalForecastTab() {
     )
   }
 
+  const ebitdaStickyOffset = stickyOffset + turnoverRowHeight
+
   return (
     <div className="accounting-year-data-container">
       <h2 className="accounting-year-data-title">Operational Forecast</h2>
@@ -215,11 +234,19 @@ export function OperationalForecastTab() {
             getValue={pick('turnover')}
             isSticky={true}
             stickyOffset={stickyOffset}
+            rowRef={turnoverRowRef}
           />
           <AccountingYearDataRow label="Cost of sales" years={yearsWithDerivedValues} getValue={pick('costOfSales')} />
           <AccountingYearDataRow label="Gross profit" years={yearsWithDerivedValues} getValue={pick('grossProfit')} />
           <AccountingYearDataRow label="Overheads" years={yearsWithDerivedValues} getValue={pick('overheads')} />
-          <AccountingYearDataRow label="EBITDA" years={yearsWithDerivedValues} getValue={pick('ebitda')} isBold={true} />
+          <AccountingYearDataRow
+            label="EBITDA"
+            years={yearsWithDerivedValues}
+            getValue={pick('ebitda')}
+            isBold={true}
+            isSticky={true}
+            stickyOffset={ebitdaStickyOffset}
+          />
           <AccountingYearDataRow label="EBIT" years={yearsWithDerivedValues} getValue={pick('ebit')} isBold={true} />
           <AccountingYearDataRow label="Interest receivable" years={yearsWithDerivedValues} getValue={pick('interestReceivable')} />
           <AccountingYearDataRow

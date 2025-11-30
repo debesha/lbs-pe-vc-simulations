@@ -102,6 +102,7 @@ const rawAccountingData: { title: string; years: RawAccountingYear[] } = {
       increaseDecreaseInCreditors: 56,
       interestReceived: 225,
       netCapitalExpenditure: -633,
+      cashAtBankAndInHandOperating: 4286,
     },
     {
       year: 2005,
@@ -115,6 +116,7 @@ const rawAccountingData: { title: string; years: RawAccountingYear[] } = {
       increaseDecreaseInCreditors: 2602,
       interestReceived: 250,
       netCapitalExpenditure: -500,
+      cashAtBankAndInHandOperating: 4286,
     },
     {
       year: 2006,
@@ -128,6 +130,7 @@ const rawAccountingData: { title: string; years: RawAccountingYear[] } = {
       increaseDecreaseInCreditors: 2141,
       interestReceived: 275,
       netCapitalExpenditure: -564,
+      cashAtBankAndInHandOperating: 4286,
     },
   ],
 }

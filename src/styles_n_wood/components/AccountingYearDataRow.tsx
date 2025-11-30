@@ -1,3 +1,4 @@
+import type { Ref } from 'react'
 import { AccountingYear } from '../types'
 import './AccountingYearDataTable.css'
 
@@ -12,6 +13,7 @@ interface AccountingYearDataRowProps {
   isSticky?: boolean
   stickyOffset?: number
   isNested?: boolean
+  rowRef?: Ref<HTMLTableRowElement>
 }
 
 export function AccountingYearDataRow({
@@ -25,6 +27,7 @@ export function AccountingYearDataRow({
   isSticky = false,
   stickyOffset = 0,
   isNested = false,
+  rowRef,
 }: AccountingYearDataRowProps) {
   const defaultFormatValue = (value: number) => {
     return value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -46,7 +49,7 @@ export function AccountingYearDataRow({
   const stickyStyle = isSticky ? { top: stickyOffset } : undefined
 
   return (
-    <tr className={rowClassName} style={stickyStyle}>
+    <tr className={rowClassName} style={stickyStyle} ref={rowRef}>
       <td className={`accounting-year-data-label-cell ${isNested ? 'accounting-year-data-nested-label' : ''}`}>{label}</td>
       {years.map((year) => {
         const value = getValue(year)

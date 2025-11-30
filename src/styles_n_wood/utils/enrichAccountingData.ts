@@ -1,9 +1,16 @@
-import { RawAccountingYear, AccountingYear, AccountingData } from '../types'
+import { RawAccountingYear, AccountingYear, AccountingData, DebtSnapshot } from '../types'
 
 /**
  * Enriches raw accounting data by calculating all computed fields.
  * This is the single place where all calculations happen.
  */
+const normalizeDebtSnapshot = (debt?: DebtSnapshot): DebtSnapshot => ({
+  startingBalance: debt?.startingBalance,
+  interest: debt?.interest,
+  repayment: debt?.repayment,
+  endingBalance: debt?.endingBalance,
+})
+
 export function enrichAccountingYear(rawYear: RawAccountingYear): AccountingYear {
   const sumIfAny = (values: Array<number | undefined>): number | undefined => {
     const defined = values.filter((value) => value !== undefined) as number[]
@@ -70,6 +77,8 @@ export function enrichAccountingYear(rawYear: RawAccountingYear): AccountingYear
   // Return enriched year with all computed fields
   return {
     ...rawYear,
+    primaryDebt: normalizeDebtSnapshot(rawYear.primaryDebt),
+    secondaryDebt: normalizeDebtSnapshot(rawYear.secondaryDebt),
     accountsReceivables,
     accountsPayable,
     currentAssets,

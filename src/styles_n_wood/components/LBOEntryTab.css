@@ -48,6 +48,127 @@
   border-top: 2px solid #ddd;
 }
 
+.exit-comparison-column .lbo-entry-row-calculated:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* IRR sensitivity overlay */
+
+.exit-irr-row {
+  gap: 16px;
+}
+
+.exit-sensitivity-link {
+  border: none;
+  background: none;
+  color: #1d4ed8;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  font-size: 13px;
+}
+
+.exit-sensitivity-link:focus-visible,
+.exit-sensitivity-close:focus-visible {
+  outline: 2px solid #1d4ed8;
+  outline-offset: 2px;
+}
+
+.exit-sensitivity-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.exit-sensitivity-overlay-content {
+  background: #f8f9fa;
+  border-radius: 12px;
+  width: min(960px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+}
+
+.exit-sensitivity-overlay-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.exit-sensitivity-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2f3b52;
+}
+
+.exit-sensitivity-close {
+  border: none;
+  background: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #1f2937;
+  padding: 4px;
+}
+
+.exit-sensitivity-table-wrapper {
+  overflow: auto;
+}
+
+.exit-sensitivity-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.exit-sensitivity-table th,
+.exit-sensitivity-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  min-width: 70px;
+}
+
+.exit-sensitivity-header-cell {
+  background-color: #eef2ff;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.exit-sensitivity-corner-cell {
+  background-color: #e0e7ff;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+.exit-sensitivity-cell {
+  background-color: #fff;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', 'Courier New', monospace;
+  font-size: 13px;
+  color: #111827;
+}
+
+.exit-sensitivity-cell-selected {
+  background-color: #1d4ed8;
+  color: #fff;
+  font-weight: 700;
+}
+
 .lbo-entry-label {
   font-weight: 600;
   color: #333;
@@ -403,6 +524,87 @@
   letter-spacing: 0.05em;
   color: #4a5c7a;
   text-align: center;
+}
+
+.lbo-exit-performance-section {
+  margin-top: 32px;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lbo-exit-performance-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2f3b52;
+  margin-bottom: 16px;
+}
+
+.lbo-exit-performance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lbo-exit-performance-table thead {
+  border-bottom: 2px solid #ddd;
+}
+
+.lbo-exit-performance-header {
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a5c7a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-align: right;
+}
+
+.lbo-exit-performance-header:first-child {
+  text-align: left;
+}
+
+.lbo-exit-performance-label {
+  padding: 12px;
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+  text-align: left;
+}
+
+.lbo-exit-performance-value {
+  padding: 12px;
+  font-size: 14px;
+  color: #2f3b52;
+  text-align: right;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Fira Mono', 'Droid Sans Mono', 'Source Code Pro', 'Courier New', monospace;
+}
+
+.lbo-exit-performance-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.lbo-exit-performance-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.lbo-exit-performance-label-strong {
+  font-weight: 700;
+}
+
+.lbo-exit-performance-value-strong {
+  font-weight: 700;
+  color: #111;
+}
+
+.lbo-exit-performance-row-total {
+  background-color: #eef2ff;
+}
+
+.lbo-exit-performance-empty {
+  margin: 0;
+  font-size: 14px;
+  color: #4a5c7a;
 }
 
 @media (max-width: 1024px) {

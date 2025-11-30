@@ -1,11 +1,22 @@
 export type DataStatus = 'Audited' | 'Unaudited' | 'Plan' | 'Forecast'
 
+export interface DebtSnapshot {
+  startingBalance?: number
+  interest?: number
+  repayment?: number
+  endingBalance?: number
+}
+
 /**
  * Raw input data without computed fields
  */
 export interface RawAccountingYear {
   year: number
   status: DataStatus
+  // Debt schedule
+  primaryDebt?: DebtSnapshot
+  secondaryDebt?: DebtSnapshot
+  changeInOtherLongTermLiabilities?: number
   // Income Statement fields
   turnover: number
   costOfSales: number
@@ -39,6 +50,10 @@ export interface RawAccountingYear {
  * Enriched accounting year with all computed fields populated
  */
 export interface AccountingYear extends RawAccountingYear {
+  primaryDebt: DebtSnapshot
+  secondaryDebt: DebtSnapshot
+  taxExpense?: number
+  netIncome?: number
   accountsReceivables?: number
   accountsPayable?: number
   currentAssets?: number

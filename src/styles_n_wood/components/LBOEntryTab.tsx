@@ -1,26 +1,23 @@
 import { useMemo, useState } from 'react'
-import { accountingData } from '../data/accountingData'
 import { preDealShareholderMeta, preDealShareholders } from '../data/shareholderStructure'
 import type { ShareholderStructureRow } from '../types'
 import { calculateEquityStructure } from '../utils/calculateEquityStructure'
 import { PieChart } from './PieChart'
 import { SourcesOfFundsPieChart } from './SourcesOfFundsPieChart'
+import { useAccountingData } from '../hooks/useAccountingData'
+import { useLBOAssumptions } from '../context/LBOAssumptionsContext'
+import {
+  ADVISORY_FEE_RATE_DEFAULT,
+  FINANCING_FEES_RATE_DEFAULT,
+  MANAGEMENT_ROLLOVER_MAX,
+  MANAGEMENT_ROLLOVER_MIN,
+  MANAGEMENT_ROLLOVER_RATE_DEFAULT,
+  MANAGEMENT_ROLLOVER_STEP,
+  MULTIPLE_MAX,
+  MULTIPLE_MIN,
+  MULTIPLE_STEP,
+} from '../constants/lboAssumptions'
 import './LBOEntryTab.css'
-
-const MULTIPLE_DEFAULT = 6
-const MULTIPLE_MIN = 4
-const MULTIPLE_MAX = 12
-const MULTIPLE_STEP = 0.1
-const SENIOR_DEBT_DEFAULT = 10000
-const SUBORDINATED_DEBT_DEFAULT = 4000
-const SENIOR_DEBT_INTEREST_RATE_DEFAULT = 7.5
-const SUBORDINATED_DEBT_INTEREST_RATE_DEFAULT = 9.0
-const FINANCING_FEES_RATE_DEFAULT = 2.0
-const ADVISORY_FEE_RATE_DEFAULT = 3.0
-const MANAGEMENT_ROLLOVER_RATE_DEFAULT = 50
-const MANAGEMENT_ROLLOVER_MIN = 20
-const MANAGEMENT_ROLLOVER_MAX = 80
-const MANAGEMENT_ROLLOVER_STEP = 1
 
 const createOwnershipChartData = (rows: ShareholderStructureRow[]) => {
   if (!rows.length) {
@@ -51,12 +48,21 @@ const createOwnershipChartData = (rows: ShareholderStructureRow[]) => {
 }
 
 export function LBOEntryTab() {
-  const { years } = accountingData
-  const [multiple, setMultiple] = useState<string>(MULTIPLE_DEFAULT.toString())
-  const [seniorDebt, setSeniorDebt] = useState<string>(SENIOR_DEBT_DEFAULT.toString())
-  const [subordinatedDebt, setSubordinatedDebt] = useState<string>(SUBORDINATED_DEBT_DEFAULT.toString())
-  const [seniorDebtInterestRate, setSeniorDebtInterestRate] = useState<string>(SENIOR_DEBT_INTEREST_RATE_DEFAULT.toString())
-  const [subordinatedDebtInterestRate, setSubordinatedDebtInterestRate] = useState<string>(SUBORDINATED_DEBT_INTEREST_RATE_DEFAULT.toString())
+  const { years } = useAccountingData()
+  const {
+    seniorDebt,
+    setSeniorDebt,
+    subordinatedDebt,
+    setSubordinatedDebt,
+    seniorDebtInterestRate,
+    setSeniorDebtInterestRate,
+    subordinatedDebtInterestRate,
+    setSubordinatedDebtInterestRate,
+    entryMultiple,
+    setEntryMultiple,
+    taxRate,
+    setTaxRate,
+  } = useLBOAssumptions()
   const [financingFeesRate, setFinancingFeesRate] = useState<string>(FINANCING_FEES_RATE_DEFAULT.toString())
   const [advisoryFeeRate, setAdvisoryFeeRate] = useState<string>(ADVISORY_FEE_RATE_DEFAULT.toString())
   const [managementRolloverRate, setManagementRolloverRate] = useState<string>(MANAGEMENT_ROLLOVER_RATE_DEFAULT.toString())
@@ -65,9 +71,9 @@ export function LBOEntryTab() {
   const equitySponsorName = preDealShareholderMeta?.equitySponsorName ?? 'Sponsor equity'
 
   const multipleValue = useMemo(() => {
-    const parsed = parseFloat(multiple)
+    const parsed = parseFloat(entryMultiple)
     return Number.isNaN(parsed) ? undefined : parsed
-  }, [multiple])
+  }, [entryMultiple])
 
   const managementRolloverRateValue = useMemo(() => {
     const parsed = parseFloat(managementRolloverRate)
@@ -250,7 +256,7 @@ export function LBOEntryTab() {
   }
 
   const handleMultipleChange = (value: string) => {
-    setMultiple(value)
+    setEntryMultiple(value)
   }
 
   const handleSeniorDebtChange = (value: string) => {
@@ -275,6 +281,10 @@ export function LBOEntryTab() {
 
   const handleAdvisoryFeeRateChange = (value: string) => {
     setAdvisoryFeeRate(value)
+  }
+
+  const handleTaxRateChange = (value: string) => {
+    setTaxRate(value)
   }
 
   return (
@@ -302,7 +312,7 @@ export function LBOEntryTab() {
                   min={MULTIPLE_MIN}
                   max={MULTIPLE_MAX}
                   step={MULTIPLE_STEP}
-                  value={multiple}
+                  value={entryMultiple}
                   onChange={(event) => handleMultipleChange(event.target.value)}
                   className="lbo-entry-slider"
                   aria-label="Assumed multiple for enterprise value calculation"
@@ -350,6 +360,21 @@ export function LBOEntryTab() {
                   onChange={(event) => handleAdvisoryFeeRateChange(event.target.value)}
                   className="lbo-entry-assumption-input"
                   aria-label="Advisory fee rate assumption"
+                />
+                <span className="lbo-entry-assumption-suffix">%</span>
+              </label>
+            </div>
+            <div className="lbo-entry-row">
+              <span className="lbo-entry-label">Tax rate assumption:</span>
+              <label className="lbo-entry-assumption-field">
+                <input
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  value={taxRate}
+                  onChange={(event) => handleTaxRateChange(event.target.value)}
+                  className="lbo-entry-assumption-input"
+                  aria-label="Tax rate assumption"
                 />
                 <span className="lbo-entry-assumption-suffix">%</span>
               </label>
