@@ -76,6 +76,14 @@ export interface AccountingData {
   years: AccountingYear[]
 }
 
+export interface Scenario {
+  id: string
+  name: string
+  data: AccountingData
+  turnoverCAGR?: number
+  ebitCAGR?: number
+}
+
 export interface ShareholderStake {
   id: string
   name: string

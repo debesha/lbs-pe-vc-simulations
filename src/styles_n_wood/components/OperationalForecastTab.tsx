@@ -4,6 +4,9 @@ import { AccountingYearDataHeader } from './AccountingYearDataHeader'
 import { AccountingYearDataRow } from './AccountingYearDataRow'
 import { AccountingYearDataMarginRow } from './AccountingYearDataMarginRow'
 import { useAccountingData } from '../hooks/useAccountingData'
+import { useLBOAssumptions } from '../context/LBOAssumptionsContext'
+import { useScenario } from '../hooks/useScenario'
+import { scenarios } from '../data/accountingData'
 import './AccountingYearDataTable.css'
 
 const NET_WORKING_CAPITAL_ASSUMPTION_DEFAULT = 1.5
@@ -16,10 +19,14 @@ type AccountingYearWithDerived = AccountingYear & {
 
 export function OperationalForecastTab() {
   const { years } = useAccountingData()
+  const { selectedScenarioId, setSelectedScenarioId } = useLBOAssumptions()
+  const scenario = useScenario()
   const pick = <K extends keyof AccountingYear>(key: K) => (year: AccountingYear) =>
     year[key] as number | undefined
   const formatNumber = (value: number | undefined) =>
     value === undefined ? '' : value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+  const formatCAGR = (cagr: number | undefined) =>
+    cagr !== undefined ? `${(cagr * 100).toFixed(1)}%` : '-'
   const tableRef = useRef<HTMLTableElement | null>(null)
   const turnoverRowRef = useRef<HTMLTableRowElement | null>(null)
   const [stickyOffset, setStickyOffset] = useState(0)
@@ -221,9 +228,32 @@ export function OperationalForecastTab() {
 
   const ebitStickyOffset = stickyOffset + turnoverRowHeight
 
+  const handleScenarioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedScenarioId(event.target.value)
+  }
+
   return (
     <div className="accounting-year-data-container">
       <h2 className="accounting-year-data-title">Operational Forecast</h2>
+      
+      <div className="lbo-entry-scenario-selector">
+        <label htmlFor="operational-scenario-select" className="lbo-entry-scenario-label">
+          Scenario:
+        </label>
+        <select
+          id="operational-scenario-select"
+          value={selectedScenarioId}
+          onChange={handleScenarioChange}
+          className="lbo-entry-scenario-select"
+        >
+          {scenarios.map((scenario) => (
+            <option key={scenario.id} value={scenario.id}>
+              {scenario.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <table className="accounting-year-data-table" ref={tableRef}>
         <AccountingYearDataHeader years={yearsWithDerivedValues} />
         <tbody>
@@ -236,6 +266,15 @@ export function OperationalForecastTab() {
             stickyOffset={stickyOffset}
             rowRef={turnoverRowRef}
           />
+          <tr className="accounting-year-data-data-row accounting-year-data-cagr-row">
+            <td className="accounting-year-data-label-cell accounting-year-data-cagr-label">CAGR</td>
+            <td
+              className="accounting-year-data-value-cell accounting-year-data-cagr-value"
+              colSpan={yearsWithDerivedValues.length}
+            >
+              {formatCAGR(scenario?.turnoverCAGR)}
+            </td>
+          </tr>
           <AccountingYearDataRow label="Cost of sales" years={yearsWithDerivedValues} getValue={pick('costOfSales')} />
           <AccountingYearDataRow label="Gross profit" years={yearsWithDerivedValues} getValue={pick('grossProfit')} />
           <AccountingYearDataRow label="Overheads" years={yearsWithDerivedValues} getValue={pick('overheads')} />
@@ -253,6 +292,15 @@ export function OperationalForecastTab() {
             isSticky={true}
             stickyOffset={ebitStickyOffset}
           />
+          <tr className="accounting-year-data-data-row accounting-year-data-cagr-row">
+            <td className="accounting-year-data-label-cell accounting-year-data-cagr-label">CAGR</td>
+            <td
+              className="accounting-year-data-value-cell accounting-year-data-cagr-value"
+              colSpan={yearsWithDerivedValues.length}
+            >
+              {formatCAGR(scenario?.ebitCAGR)}
+            </td>
+          </tr>
           <AccountingYearDataRow label="Interest receivable" years={yearsWithDerivedValues} getValue={pick('interestReceivable')} />
           <AccountingYearDataRow
             label="PBT"

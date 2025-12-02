@@ -167,6 +167,29 @@
   background-color: #fdfdfd;
 }
 
+.accounting-year-data-cagr-row {
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f5f7fa;
+  font-size: 13px;
+}
+
+.accounting-year-data-cagr-label {
+  padding-left: 32px;
+  font-weight: 500;
+  font-style: italic;
+  color: #5f6b85;
+  font-size: 13px;
+}
+
+.accounting-year-data-cagr-value {
+  text-align: center;
+  font-weight: 500;
+  color: #2f3b52;
+  font-style: italic;
+  font-size: 13px;
+  background-color: #f5f7fa;
+}
+
 .accounting-year-data-label-with-toggle {
   display: flex;
   align-items: center;

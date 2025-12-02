@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { preDealShareholderMeta, preDealShareholders } from '../data/shareholderStructure'
+import { scenarios } from '../data/accountingData'
 import type { ShareholderStructureRow } from '../types'
 import { calculateEquityStructure } from '../utils/calculateEquityStructure'
 import { PieChart } from './PieChart'
@@ -62,6 +63,8 @@ export function LBOEntryTab() {
     setEntryMultiple,
     taxRate,
     setTaxRate,
+    selectedScenarioId,
+    setSelectedScenarioId,
   } = useLBOAssumptions()
   const [financingFeesRate, setFinancingFeesRate] = useState<string>(FINANCING_FEES_RATE_DEFAULT.toString())
   const [advisoryFeeRate, setAdvisoryFeeRate] = useState<string>(ADVISORY_FEE_RATE_DEFAULT.toString())
@@ -287,9 +290,32 @@ export function LBOEntryTab() {
     setTaxRate(value)
   }
 
+  const handleScenarioChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedScenarioId(event.target.value)
+  }
+
   return (
     <div className="lbo-entry-container">
       <h2 className="lbo-entry-title">LBO Entry</h2>
+      
+      <div className="lbo-entry-scenario-selector">
+        <label htmlFor="scenario-select" className="lbo-entry-scenario-label">
+          Scenario:
+        </label>
+        <select
+          id="scenario-select"
+          value={selectedScenarioId}
+          onChange={handleScenarioChange}
+          className="lbo-entry-scenario-select"
+        >
+          {scenarios.map((scenario) => (
+            <option key={scenario.id} value={scenario.id}>
+              {scenario.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="lbo-entry-form">
         <div className="lbo-entry-form-grid">
           <div className="lbo-entry-form-column">

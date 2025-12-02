@@ -27,6 +27,8 @@ interface LBOAssumptionsContextValue {
   setExitMultiple: (value: string) => void
   selectedExitYear: string
   setSelectedExitYear: (value: string) => void
+  selectedScenarioId: string
+  setSelectedScenarioId: (value: string) => void
 }
 
 const LBOAssumptionsContext = createContext<LBOAssumptionsContextValue | undefined>(undefined)
@@ -48,6 +50,7 @@ export function LBOAssumptionsProvider({ children }: LBOAssumptionsProviderProps
   const [entryMultiple, setEntryMultiple] = useState<string>(MULTIPLE_DEFAULT.toString())
   const [exitMultiple, setExitMultiple] = useState<string>(EXIT_MULTIPLE_DEFAULT.toString())
   const [selectedExitYear, setSelectedExitYear] = useState<string>(EXIT_DEFAULT_YEAR.toString())
+  const [selectedScenarioId, setSelectedScenarioId] = useState<string>('case-a')
 
   return (
     <LBOAssumptionsContext.Provider
@@ -68,6 +71,8 @@ export function LBOAssumptionsProvider({ children }: LBOAssumptionsProviderProps
         setExitMultiple,
         selectedExitYear,
         setSelectedExitYear,
+        selectedScenarioId,
+        setSelectedScenarioId,
       }}
     >
       {children}

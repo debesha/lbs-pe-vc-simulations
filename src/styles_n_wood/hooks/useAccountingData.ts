@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { accountingData } from '../data/accountingData'
+import { scenarios } from '../data/accountingData'
 import { useLBOAssumptions } from '../context/LBOAssumptionsContext'
 import type { AccountingData, AccountingYear, DebtSnapshot } from '../types'
 import { DEBT_POPULATION_YEAR, getInterestAccrualFactor } from '../utils/debtHelpers'
@@ -45,9 +45,13 @@ export function useAccountingData(): AccountingData {
     subordinatedDebt,
     subordinatedDebtInterestRate,
     taxRate,
+    selectedScenarioId,
   } = useLBOAssumptions()
 
   return useMemo(() => {
+    // Get the accounting data for the selected scenario
+    const selectedScenario = scenarios.find((s) => s.id === selectedScenarioId)
+    const accountingData = selectedScenario?.data ?? scenarios[0].data
     const seniorDebtBalance = parseNumericInput(seniorDebt)
     const seniorDebtRate = parseNumericInput(seniorDebtInterestRate)
     const subordinatedDebtBalance = parseNumericInput(subordinatedDebt)
@@ -101,7 +105,7 @@ export function useAccountingData(): AccountingData {
       ...accountingData,
       years,
     }
-  }, [seniorDebt, seniorDebtInterestRate, subordinatedDebt, subordinatedDebtInterestRate, taxRate])
+  }, [seniorDebt, seniorDebtInterestRate, subordinatedDebt, subordinatedDebtInterestRate, taxRate, selectedScenarioId])
 }
 
 
