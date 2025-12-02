@@ -23,7 +23,7 @@ export function InfoForm() {
 
   const entryYearData = useMemo(() => years.find((year) => year.year === ENTRY_YEAR), [years])
   const entryNetCashYearData = useMemo(() => years.find((year) => year.year === ENTRY_NET_CASH_YEAR), [years])
-  const entryEbitda = entryYearData?.ebitda
+  const entryEbit = entryYearData?.ebit
   const entryNetCash = entryNetCashYearData?.cashAtBankAndInHandOperating
 
   const selectedExitYearNumber = useMemo(() => {
@@ -36,7 +36,7 @@ export function InfoForm() {
     [years, selectedExitYearNumber]
   )
 
-  const exitEbitda = exitYearData?.ebitda
+  const exitEbit = exitYearData?.ebit
   const netCash = exitYearData?.cashAtBankAndInHandOperating
 
   const entryMultipleValue = useMemo(() => {
@@ -80,14 +80,14 @@ export function InfoForm() {
   )
 
   const entryEnterpriseValue = useMemo(() => {
-    if (entryEbitda === undefined || entryMultipleValue === undefined) return undefined
-    return entryEbitda * entryMultipleValue
-  }, [entryEbitda, entryMultipleValue])
+    if (entryEbit === undefined || entryMultipleValue === undefined) return undefined
+    return entryEbit * entryMultipleValue
+  }, [entryEbit, entryMultipleValue])
 
   const exitEnterpriseValue = useMemo(() => {
-    if (exitEbitda === undefined || exitMultipleValue === undefined) return undefined
-    return exitEbitda * exitMultipleValue
-  }, [exitEbitda, exitMultipleValue])
+    if (exitEbit === undefined || exitMultipleValue === undefined) return undefined
+    return exitEbit * exitMultipleValue
+  }, [exitEbit, exitMultipleValue])
 
   const entryEquityValue = useMemo(() => {
     if (entryEnterpriseValue === undefined || entryNetCash === undefined) return undefined
@@ -149,9 +149,9 @@ export function InfoForm() {
     if (
       entryMultipleRange.length === 0 ||
       exitMultipleRange.length === 0 ||
-      entryEbitda === undefined ||
+      entryEbit === undefined ||
       entryNetCash === undefined ||
-      exitEbitda === undefined ||
+      exitEbit === undefined ||
       netCashMinusDebt === undefined ||
       holdingPeriodYears === undefined ||
       holdingPeriodYears <= 0
@@ -160,9 +160,9 @@ export function InfoForm() {
     }
 
     return exitMultipleRange.map((exitMultipleCandidate) => {
-      const exitEquityCandidate = exitEbitda * exitMultipleCandidate + netCashMinusDebt
+      const exitEquityCandidate = exitEbit * exitMultipleCandidate + netCashMinusDebt
       return entryMultipleRange.map((entryMultipleCandidate) => {
-        const entryEquityCandidate = entryEbitda * entryMultipleCandidate + entryNetCash
+        const entryEquityCandidate = entryEbit * entryMultipleCandidate + entryNetCash
         if (entryEquityCandidate <= 0 || exitEquityCandidate <= 0) {
           return undefined
         }
@@ -176,9 +176,9 @@ export function InfoForm() {
   }, [
     entryMultipleRange,
     exitMultipleRange,
-    entryEbitda,
+    entryEbit,
     entryNetCash,
-    exitEbitda,
+    exitEbit,
     netCashMinusDebt,
     holdingPeriodYears,
   ])

@@ -88,11 +88,11 @@ export function ExitTab() {
     return Number.isNaN(parsed) ? undefined : parsed
   }, [selectedExitYear])
 
-  const exitEbitda = selectedYearData?.ebitda
+  const exitEbit = selectedYearData?.ebit
   const netCash = selectedYearData?.cashAtBankAndInHandOperating
 
   const entryYearData = useMemo(() => years.find((year) => year.year === ENTRY_YEAR), [years])
-  const entryEbitda = entryYearData?.ebitda
+  const entryEbit = entryYearData?.ebit
   const entryNetCashYearData = useMemo(() => years.find((year) => year.year === ENTRY_NET_CASH_YEAR), [years])
   const entryNetCash = entryNetCashYearData?.cashAtBankAndInHandOperating
 
@@ -110,14 +110,14 @@ export function ExitTab() {
   const exitMultipleRange = useMemo(() => generateSensitivityValues(exitMultipleValue), [exitMultipleValue])
 
   const enterpriseValue = useMemo(() => {
-    if (exitEbitda === undefined || exitMultipleValue === undefined) return undefined
-    return exitEbitda * exitMultipleValue
-  }, [exitEbitda, exitMultipleValue])
+    if (exitEbit === undefined || exitMultipleValue === undefined) return undefined
+    return exitEbit * exitMultipleValue
+  }, [exitEbit, exitMultipleValue])
 
   const entryEnterpriseValue = useMemo(() => {
-    if (entryEbitda === undefined || entryMultipleValue === undefined) return undefined
-    return entryEbitda * entryMultipleValue
-  }, [entryEbitda, entryMultipleValue])
+    if (entryEbit === undefined || entryMultipleValue === undefined) return undefined
+    return entryEbit * entryMultipleValue
+  }, [entryEbit, entryMultipleValue])
 
   const entryEquityValue = useMemo(() => {
     if (entryEnterpriseValue === undefined || entryNetCash === undefined) return undefined
@@ -197,9 +197,9 @@ export function ExitTab() {
     if (
       entryMultipleRange.length === 0 ||
       exitMultipleRange.length === 0 ||
-      entryEbitda === undefined ||
+      entryEbit === undefined ||
       entryNetCash === undefined ||
-      exitEbitda === undefined ||
+      exitEbit === undefined ||
       netCashMinusDebt === undefined ||
       holdingPeriodYears === undefined ||
       holdingPeriodYears <= 0
@@ -208,9 +208,9 @@ export function ExitTab() {
     }
 
     return exitMultipleRange.map((exitMultipleCandidate) => {
-      const exitEquityCandidate = exitEbitda * exitMultipleCandidate + netCashMinusDebt
+      const exitEquityCandidate = exitEbit * exitMultipleCandidate + netCashMinusDebt
       return entryMultipleRange.map((entryMultipleCandidate) => {
-        const entryEquityCandidate = entryEbitda * entryMultipleCandidate + entryNetCash
+        const entryEquityCandidate = entryEbit * entryMultipleCandidate + entryNetCash
         if (entryEquityCandidate <= 0 || exitEquityCandidate <= 0) {
           return undefined
         }
@@ -224,9 +224,9 @@ export function ExitTab() {
   }, [
     entryMultipleRange,
     exitMultipleRange,
-    entryEbitda,
+    entryEbit,
     entryNetCash,
-    exitEbitda,
+    exitEbit,
     netCashMinusDebt,
     holdingPeriodYears,
   ])
@@ -235,18 +235,18 @@ export function ExitTab() {
     if (
       entryMultipleRange.length === 0 ||
       exitMultipleRange.length === 0 ||
-      entryEbitda === undefined ||
+      entryEbit === undefined ||
       entryNetCash === undefined ||
-      exitEbitda === undefined ||
+      exitEbit === undefined ||
       netCashMinusDebt === undefined
     ) {
       return [] as Array<Array<number | undefined>>
     }
 
     return exitMultipleRange.map((exitMultipleCandidate) => {
-      const exitEquityCandidate = exitEbitda * exitMultipleCandidate + netCashMinusDebt
+      const exitEquityCandidate = exitEbit * exitMultipleCandidate + netCashMinusDebt
       return entryMultipleRange.map((entryMultipleCandidate) => {
-        const entryEquityCandidate = entryEbitda * entryMultipleCandidate + entryNetCash
+        const entryEquityCandidate = entryEbit * entryMultipleCandidate + entryNetCash
         if (entryEquityCandidate <= 0 || exitEquityCandidate <= 0) {
           return undefined
         }
@@ -256,9 +256,9 @@ export function ExitTab() {
   }, [
     entryMultipleRange,
     exitMultipleRange,
-    entryEbitda,
+    entryEbit,
     entryNetCash,
-    exitEbitda,
+    exitEbit,
     netCashMinusDebt,
   ])
 
@@ -295,8 +295,8 @@ export function ExitTab() {
               )}
             </div>
             <div className="lbo-entry-row">
-              <span className="lbo-entry-label">Exit EBITDA:</span>
-              <span className="lbo-entry-value">{formatNumber(exitEbitda)}</span>
+              <span className="lbo-entry-label">Exit EBIT:</span>
+              <span className="lbo-entry-value">{formatNumber(exitEbit)}</span>
             </div>
             <div className="lbo-entry-row">
               <label className="lbo-entry-label" htmlFor="exit-multiple-slider">

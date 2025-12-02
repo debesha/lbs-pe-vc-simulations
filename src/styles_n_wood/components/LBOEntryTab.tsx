@@ -80,10 +80,10 @@ export function LBOEntryTab() {
     return Number.isNaN(parsed) ? undefined : parsed
   }, [managementRolloverRate])
 
-  // Get EBITDA for year 2004
-  const entryEBITDA = useMemo(() => {
+  // Get EBIT for year 2004
+  const entryEBIT = useMemo(() => {
     const year2004 = years.find((year) => year.year === 2004)
-    return year2004?.ebitda
+    return year2004?.ebit
   }, [years])
 
   // Get net cash (minus debt) for year 2003
@@ -92,11 +92,11 @@ export function LBOEntryTab() {
     return year2003?.cashAtBankAndInHandOperating
   }, [years])
 
-  // Calculate EV = EBITDA * Multiple
+  // Calculate EV = EBIT * Multiple
   const enterpriseValue = useMemo(() => {
-    if (entryEBITDA === undefined || multipleValue === undefined) return undefined
-    return entryEBITDA * multipleValue
-  }, [entryEBITDA, multipleValue])
+    if (entryEBIT === undefined || multipleValue === undefined) return undefined
+    return entryEBIT * multipleValue
+  }, [entryEBIT, multipleValue])
 
   // Calculate Equity Value = Enterprise Value + Net Cash
   const equityValue = useMemo(() => {
@@ -178,14 +178,14 @@ export function LBOEntryTab() {
 
   // Calculate cumulative debt multiples
   const seniorDebtMultiple = useMemo(() => {
-    if (entryEBITDA === undefined || entryEBITDA === 0) return undefined
-    return seniorDebtValue / entryEBITDA
-  }, [entryEBITDA, seniorDebtValue])
+    if (entryEBIT === undefined || entryEBIT === 0) return undefined
+    return seniorDebtValue / entryEBIT
+  }, [entryEBIT, seniorDebtValue])
 
   const cumulativeDebtMultiple = useMemo(() => {
-    if (entryEBITDA === undefined || entryEBITDA === 0) return undefined
-    return (seniorDebtValue + subordinatedDebtValue) / entryEBITDA
-  }, [entryEBITDA, seniorDebtValue, subordinatedDebtValue])
+    if (entryEBIT === undefined || entryEBIT === 0) return undefined
+    return (seniorDebtValue + subordinatedDebtValue) / entryEBIT
+  }, [entryEBIT, seniorDebtValue, subordinatedDebtValue])
 
   const formatNumber = (value: number | undefined) =>
     value === undefined ? '' : value.toLocaleString('en-GB', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
@@ -298,8 +298,8 @@ export function LBOEntryTab() {
               <span className="lbo-entry-value">May 2004</span>
             </div>
             <div className="lbo-entry-row">
-              <span className="lbo-entry-label">Entry EBITDA:</span>
-              <span className="lbo-entry-value">{formatNumber(entryEBITDA)}</span>
+              <span className="lbo-entry-label">Entry EBIT:</span>
+              <span className="lbo-entry-value">{formatNumber(entryEBIT)}</span>
             </div>
             <div className="lbo-entry-row">
               <label className="lbo-entry-label" htmlFor="lbo-entry-multiple-slider">

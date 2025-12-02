@@ -219,7 +219,7 @@ export function OperationalForecastTab() {
     )
   }
 
-  const ebitdaStickyOffset = stickyOffset + turnoverRowHeight
+  const ebitStickyOffset = stickyOffset + turnoverRowHeight
 
   return (
     <div className="accounting-year-data-container">
@@ -244,10 +244,15 @@ export function OperationalForecastTab() {
             years={yearsWithDerivedValues}
             getValue={pick('ebitda')}
             isBold={true}
-            isSticky={true}
-            stickyOffset={ebitdaStickyOffset}
           />
-          <AccountingYearDataRow label="EBIT" years={yearsWithDerivedValues} getValue={pick('ebit')} isBold={true} />
+          <AccountingYearDataRow
+            label="EBIT"
+            years={yearsWithDerivedValues}
+            getValue={pick('ebit')}
+            isBold={true}
+            isSticky={true}
+            stickyOffset={ebitStickyOffset}
+          />
           <AccountingYearDataRow label="Interest receivable" years={yearsWithDerivedValues} getValue={pick('interestReceivable')} />
           <AccountingYearDataRow
             label="PBT"
