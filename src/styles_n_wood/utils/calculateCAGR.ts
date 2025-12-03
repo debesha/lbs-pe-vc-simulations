@@ -59,3 +59,4 @@ export function calculateEBITCAGR(years: AccountingYear[]): number | undefined {
   return calculateCAGR(years, (year) => year.ebit)
 }
 
+
