@@ -36,8 +36,8 @@ const CO_INVEST_RATIO =
 const CO_INVEST_DISABLED_MESSAGE = 'Entire allocation stays in the main buyout fund.'
 
 function App() {
-  const [totalCapital, setTotalCapital] = useState(500)
-  const [buyoutAllocation, setBuyoutAllocation] = useState(400)
+  const [totalCapital, setTotalCapital] = useState(1300)
+  const [buyoutAllocation, setBuyoutAllocation] = useState(1200)
   const [vcAllocation, setVcAllocation] = useState(100)
   const [buyoutMultiple, setBuyoutMultiple] = useState(buyoutConfig.expected_gross_return_on_investments_multiple)
   const [vcMultiple, setVcMultiple] = useState(vcConfig.expected_gross_return_on_investments_multiple)
