@@ -182,12 +182,12 @@ export function InfoForm() {
     netCashMinusDebt,
     holdingPeriodYears,
   ])
-  const ebitdaSeries = useMemo(() => {
-    const maxValue = Math.max(...years.map((year) => year.ebitda ?? 0), 1)
+  const ebitSeries = useMemo(() => {
+    const maxValue = Math.max(...years.map((year) => year.ebit ?? 0), 1)
     return years.map((year) => ({
       year: year.year,
-      value: year.ebitda ?? 0,
-      ratio: (year.ebitda ?? 0) / maxValue,
+      value: year.ebit ?? 0,
+      ratio: (year.ebit ?? 0) / maxValue,
     }))
   }, [years])
 
@@ -279,9 +279,9 @@ export function InfoForm() {
         </div>
       </div>
       <div className="info-chart-card">
-        <h3 className="info-chart-title">EBITDA progression</h3>
+        <h3 className="info-chart-title">EBIT progression</h3>
         <div className="info-ebitda-chart">
-          {ebitdaSeries.map((entry) => (
+          {ebitSeries.map((entry) => (
             <div key={entry.year} className="info-chart-bar vertical">
               <div className="info-chart-bar-track vertical">
                 <div className="info-chart-bar-fill vertical" style={{ height: `${Math.max(entry.ratio * 100, 4)}%` }} />

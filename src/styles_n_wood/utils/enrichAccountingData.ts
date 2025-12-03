@@ -44,8 +44,13 @@ export function enrichAccountingYear(rawYear: RawAccountingYear): AccountingYear
           rawYear.accruedDividendsAndInterest,
         ])
 
+  // Use provided NWC if available, otherwise calculate from current assets and liabilities
   const netWorkingCapital =
-    currentAssets !== undefined && currentLiabilities !== undefined ? currentAssets - currentLiabilities : undefined
+    rawYear.netWorkingCapital !== undefined
+      ? rawYear.netWorkingCapital
+      : currentAssets !== undefined && currentLiabilities !== undefined
+      ? currentAssets - currentLiabilities
+      : undefined
   const netWorkingCapitalToTurnover =
     netWorkingCapital !== undefined && rawYear.turnover !== 0
       ? (netWorkingCapital / rawYear.turnover) * 100

@@ -62,7 +62,7 @@ const calculateFundPerformance = ({
   const totalTermYears = parseFundTermYears(config.fund_terms_years)
   const totalYears = Math.max(exitYear, totalTermYears)
   const cashFlows = Array(totalYears + 1).fill(0)
-  const investmentYears = 5
+  const investmentYears = 6
   const estFeeRate = (config.fund_establishment_fee_percent_of_committed_capital ?? 0) / 100
   const mgmtFeeRate = (config.management_fees_percent ?? 0) / 100
   const prefRate = (config.preferred_return_percent ?? 0) / 100
@@ -156,7 +156,7 @@ const calculateFundPerformance = ({
   const netMultiple = netOut === 0 ? 0 : netIn / netOut
   const irr = calculateIRR(cashFlows)
 
-  // Calculate gross IRR: capital calls over years 1-5, exit at exitYear with grossMultiple
+  // Calculate gross IRR: capital calls over years 1-6, exit at exitYear with grossMultiple
   const grossCashFlows = Array(Math.max(exitYear, investmentYears) + 1).fill(0)
   // drawAmount already calculated above
   for (let year = 1; year <= investmentYears; year++) {

@@ -191,9 +191,33 @@ const caseBSpecificYears: RawAccountingYear[] = [
     },
 ]
 
-// Case C: Financial Statements (from Exhibit 1b) - scenario-specific years (2004-2008E)
+// Case C: Financial Statements (from Exhibit 1b) - scenario-specific years (2003-2008E)
 // Data from Summary P&L, Cash Flow, and Balance Sheet statements
+// Note: 2003 data reused from Case A
 const caseCSpecificYears: RawAccountingYear[] = [
+    {
+      year: 2003,
+      status: 'Unaudited',
+      turnover: 132902,
+      costOfSales: -121871,
+      overheads: -7222,
+      interestReceivable: 239,
+      depreciation: 408,
+      profitLossOnSaleOfFixedAssets: 4,
+      increaseDecreaseInDebtors: -1960,
+      increaseDecreaseInCreditors: 4606,
+      interestReceived: 239,
+      netCapitalExpenditure: -310,
+      amountsReceivableOnContracts: 6035,
+      tradeDebtors: 14647,
+      otherDebtorsAndPrepayments: 581,
+      cashAtBankAndInHandOperating: 4286,
+      tradeCreditors: 24925,
+      corporationTax: 523,
+      otherTaxationAndSocialSecurity: 450,
+      otherCreditorsAndAccruals: 1754,
+      accruedDividendsAndInterest: 246,
+    },
     {
       year: 2004,
       status: 'Unaudited',

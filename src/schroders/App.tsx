@@ -265,7 +265,7 @@ function App() {
         />
 
         <div className="disclaimer">
-          <strong>Calculation assumptions:</strong> Capital calls are evenly distributed over the first 5 years (investment period), and all investments are divested together at the selected exit year.
+          <strong>Calculation assumptions:</strong> Capital calls are evenly distributed over the first 6 years (investment period), and all investments are divested together at the selected exit year.
         </div>
 
         <FundColumns
